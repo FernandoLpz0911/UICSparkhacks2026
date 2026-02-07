@@ -159,6 +159,19 @@ Future<void> assignRolesAndGenres({
   }
 }
 
+/// 
+/// Setter for the players being ready to begin playing. Sets based off the
+/// parameters using the lobbyCode, userID for specific users, and isReady as
+/// a boolean to state if that user is ready to play
+Future<void> setPlayerReady(int lobbyCode, int userID, bool isReady) async {
+    await _db
+        .collection('ServerLobby')
+        .doc(lobbyCode.toString())
+        .collection('Players')
+        .doc(userID.toString())
+        .update({'isReady': isReady});
+  }
+
 //Checks if the writing timer has expired
 //Allows host to suto transition phases
 //Called periodically by the host UI
