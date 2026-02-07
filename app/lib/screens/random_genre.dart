@@ -6,22 +6,25 @@ class Announcement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // The background color of the app
       backgroundColor: Colors.white, 
       body: Center(
+        // FIXED: Removed the stray 'g' after Center(
         child: SizedBox(
-          width: 250, // Constrain the size of the GIF
+          width: 250, 
           height: 250,
           child: Image.asset(
-            // Replace with your specific GIF URL
             'assets/image_2.gif',
             fit: BoxFit.contain,
-            // Displays a progress indicator while the GIF downloads
-
-            // Error handling if the link is broken
+            // Error handling for local assets
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Text('Could not find GIF'),
+              );
+            },
           ),
         ),
       ),
     );
   }
 }
+
