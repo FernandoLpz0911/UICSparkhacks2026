@@ -182,9 +182,8 @@ Future<bool> isWritingTimeOver(int lobbyCode) async {
 
   final int duration = lobbyDoc['writingDuration'];
   final now = DateTime.now(); 
-  final startTime = start.toDate();
-
-  return now.difference(startTime).inSeconds >= duration;
+  
+  return now.difference(start.toDate()).inSeconds >= duration;
 }
 
 //Fetches all submitted texts for the round
