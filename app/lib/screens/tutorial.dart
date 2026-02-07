@@ -1,9 +1,7 @@
-import 'package:app/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:app/widgets/navigate.dart';
+import 'package:app/firebase_options.dart';
 
 void main() async {
   // Remove this after setting up authenticaton
@@ -21,7 +19,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -39,16 +36,16 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 173, 183, 58)),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const TutorialPage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class TutorialPage extends StatefulWidget {
+  const TutorialPage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -62,22 +59,18 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<TutorialPage> createState() => _TutorialPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _TutorialPageState extends State<TutorialPage> {
+  int _currentStep = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+
+  final List<String> tutorialTexts = [
+  'Each player is given a secret genre.\n\nYou have 60 seconds to write one sentence that fits your genre.\n\nOne player is the Impostor.',
+  'All sentences are combined into one story.\n\nAn AI arranges them to flow naturally.\n\nOne line will feel off.',
+  'Read the story.\nDiscuss with your friends.\n\nVote for the line that does not belong.\n\nFind the Impostor.',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
+        // Here we take the value from the TutorialPage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
@@ -116,23 +109,54 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              tutorialTexts[_currentStep],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              ),
             ),
-            NavigateButton(
-              label: "How To Play",
-              destination: TutorialPage(title: "How To Play"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(tutorialTexts.length, (index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                  _currentStep = index;
+                  });
+                },
+                child: Container( //Circular buttons for user to move through text
+                  margin: const EdgeInsets.all(6),
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentStep == index ? Colors.black : Colors.grey,
+                  ),
+                ),
+              );
+            }),
             ),
+            const SizedBox(height: 20),
+            _currentStep < tutorialTexts.length - 1
+              ? FloatingActionButton(
+              onPressed: () {
+              setState(() {
+                _currentStep++;
+              });
+            },
+            child: const Icon(Icons.arrow_forward), //forward button for user to move through text
+          )
+          : ElevatedButton(
+            onPressed: () {
+              //go to lobby/home
+            },
+            child: const Text('Play'),
+          ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

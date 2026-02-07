@@ -1,0 +1,97 @@
+//This imports the package required for Firebase Authentication
+import 'package:firebase_auth/firebase_auth.dart';
+///Needed to import this package for ValueNotifier
+import 'package:flutter/material.dart';
+
+//This create an instance of the AuthService class and notifies the app when a change is made
+ValueNotifier<AuthService> authService = ValueNotifier(AuthService());
+
+//Creates custom class make the autheitcation calling in main more organized 
+class AuthService{
+    //Creates an an instance of FirebaseAuth to use its methods for authentication purposes
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
+    //Thsi is used to get the current user ID(email or anything and imediatley return the value
+    User? get currentUser => firebaseAuth.currentUser;   
+
+    //This is used to get the state of the user if they got validated or not
+    Stream<User?> get authStateChanges => firebaseAuth.authStateChanges();
+
+    //This is used to sign in and get the users email and password and throws an error if it is not valid.
+    Future<void> signInWithEmailAndPassword(String email, String password) async {
+        try {
+            await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred during sign in.';
+        }
+    }
+
+    //This is used to create an account and throws an error if something is wrong.
+    Future<void> createAccountWithEmailAndPassword(String email, String password) async {
+        try {
+            await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred during account creation.';
+        }
+    }
+
+    //This signs the user out of the app after they sign out and cthrows an error if something is wrong
+    Future<void> signOut() async {
+        await firebaseAuth.signOut();
+    }
+
+    //If the user forgets or wants to change their password this prompts the user
+    //to reset their password and throws an error if something goes wrong.
+    Future<void> resetPassword(String email) async {
+        try {
+            await firebaseAuth.sendPasswordResetEmail(email: email);
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred during password reset.';
+        }
+    }
+
+    //This calls the currentUser instance and updates the username with the new user name provided and reloads the sceen.
+    //Throws an error if something goes wrong during the update process.
+    Future<void> updateUsername(String newUsername) async {
+        try {
+            await currentUser?.updateDisplayName(newUsername);
+            await currentUser?.reload();
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while updating the username.';
+        }
+    }
+
+    //This calls deletes the account when the user wants to delete their account
+    //But it does not delete the account from the database
+    Future<void> deleteAccount(String email,String password) async {
+        try {
+            // Re-authenticate the user before deleting the account to make sure the they logged in recently.
+            User? user = firebaseAuth.currentUser;
+            if (user != null) {
+                AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+                await user.reauthenticateWithCredential(credential);
+                await user.delete();
+            }
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while deleting the account.';
+        }
+    }
+
+    //This updates the password of the user after they enter their current password and email
+    //Also reathenticate the user to make sure they knew their old credentials before changing.
+    Future<void> resetPasswordFromCurrentPassword(String currentPassword, String newPassword) async {
+        try {
+            User? user = firebaseAuth.currentUser;
+            if (user != null && user.email != null) {
+                AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+                await user.reauthenticateWithCredential(credential);
+                await user.updatePassword(newPassword);
+            }
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while resetting the password.';
+        }
+    }
+
+
+
+}
