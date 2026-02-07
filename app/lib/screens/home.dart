@@ -100,27 +100,38 @@ body: Center(
                     ),
                   ],
                 ),
-                child: const Align(
+child: Align(
                   alignment: Alignment.centerLeft,
-
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    "How to play 🔥", // Added the emoji here
-                    style: TextStyle(
-                      fontSize: 20, 
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                    
+                    // CHANGED: Using a Row to combine Text + Icon
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min, // Keeps the row tight to the content
+                      children: const [
+                        Text(
+                          "How to play",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SizedBox(width: 8), // Space between text and icon
+                        Icon(
+                          Icons.local_fire_department, // The Fire Icon
+                          color: Colors.black, // Now we can make it black!
+                          size: 24,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
               ),
             ),
           ],
         ),
       ),
     );
-
   }
 }
