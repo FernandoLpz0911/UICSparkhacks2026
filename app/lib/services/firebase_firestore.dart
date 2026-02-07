@@ -182,7 +182,7 @@ Future<bool> isWritingTimeOver(int lobbyCode) async {
 
   final int duration = lobbyDoc['writingDuration'];
   final now = DateTime.now(); 
-  
+
   return now.difference(start.toDate()).inSeconds >= duration;
 }
 
@@ -270,10 +270,20 @@ Future<void> clearRoundData(int lobbyCode) async {
 //Resets timer
 //Called if no win condition is met
 Future<void> nextRound(int lobbyCode) async {
-  await _db.collection('ServerLobby').doc(lobbyCode.toString()).update({
+  final lobby = _db.collection('ServerLobby').doc(lobbyCode.toString());
+
+  await lobby.update({
     'round': FieldValue.increment(1),
     'PlayerPhase': 'writing',
-    'startedWritingAt': Timestamp.now(),
+    'serverTimerStart': FieldValue.serverTimestamp(),
   });
+
+  /// get the player collections
+  final players = await lobby.collection('Players').get();
+
+  /// for every player document, update that they're not ready since we're on the next round
+  for (var doc in players.docs) {
+    await doc.reference.update({'isReady': false});
+  }
 }
 }
