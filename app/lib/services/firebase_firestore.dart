@@ -89,19 +89,21 @@ class FirestoreService {
 
   //Records one vote per alive player
   //called when player clicks the vote button
-  Future<void> vote(
-    int lobbyCode,
-    int voterID,
-    String votedForID,
-  ) async {
-    await _db
-      .collection('ServerLobby')
-      .doc(lobbyCode.toString())
-      .collection('Votes')
-      .doc(voterID.toString())
-      .set({
-        'votedFor' : votedForID,
+  Future<void> vote({
+    required int lobbyCode,
+    required int voterID,
+    required String votedForID,
+  }) async {
+    final server = _db.collection('ServerLobby').doc(lobbyCode.toString());
+    
+    // run a transaction with the server to cross-reference. More consistency
+    return _db.runTransaction((transaction) async {
+      final voteDoc = server.collection('Votes').doc(voterID.toString());
+      transaction.set(voteDoc, {
+        'votedFor': votedForID,
+        'timestamp': FieldValue.serverTimestamp(),
       });
+    });
   }
 
   //Marks a player as eliminated
