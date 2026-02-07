@@ -54,6 +54,50 @@ child: Row(
         ],
         // ------------------------
       ),
-    );
+body: Column(
+  children: [
+    const SizedBox(height:30),
+
+    Center(
+      child:Container(
+        width: 300,
+        padding: const EdgeInsets.symmetric(vertical:20),
+        decoration: BoxDecoration(
+          color: Colors.yellow,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.black,width: 3),
+          boxShadow: const[
+            BoxShadow(
+              color: Colors.black,
+              offset: Offset(5,3),
+              blurRadius: 0,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const[
+            Text(
+              "VOTE",
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 2.0,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(width: 10),
+            Icon(
+              Icons.priority_high_rounded,
+              size:40,
+              color: Colors.black
+            ),
+          ],
+        ),
+      ),
+    ),
+  ],
+)
+);
   }
 }
