@@ -26,7 +26,11 @@ The project is an game that starts at the home page before you hop into a lobby 
 - Download Flutter extension via VSCode extensions (go to VSCode (ctrl+shift+x)
 - Download associated [Android SDK](https://developer.android.com/studio) for flutter and set it in the PATH of VSCode
 - Run in command line
-  '''flutter run'''
+  
+  '''
+  flutter run
+  '''
+  
 - Enjoy the game!!
 
 - **Project Repository**
