@@ -116,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            NavigateButton(label: "Go To Writing Scene", destination: WritingPage(title: "Writing Page"))
+            NavigateButton(label: "Go To Writing Scene", destination: WritingPage(title: "Writing Page")),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
