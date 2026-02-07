@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class TimeUpScreen extends StatelessWidget {
   const TimeUpScreen({Key? key}) : super(key: key);
@@ -17,18 +18,18 @@ class TimeUpScreen extends StatelessWidget {
               Transform.rotate(
                 angle: 0, // you can rotate if you want
                 child: ClipPath(
-                  clipper: StarClipper(),
+                  clipper: BurstClipper(),
                   child: Container(
                     color: Colors.yellow,
-                    width: 300,
-                    height: 300,
+                    width: 600,
+                    height: 600,
                   ),
                 ),
               ),
               const Text(
                 'Time is out!',
                 style: TextStyle(
-                  fontSize: 28,
+                  fontSize: 100,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -41,27 +42,35 @@ class TimeUpScreen extends StatelessWidget {
   }
 }
 
-// Custom clipper for star shape
-class StarClipper extends CustomClipper<Path> {
+
+
+
+//star like shape 
+class BurstClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final path = Path();
-    double w = size.width;
-    double h = size.height;
-    path.moveTo(w * 0.5, 0);
-    path.lineTo(w * 0.6, h * 0.35);
-    path.lineTo(w, h * 0.4);
-    path.lineTo(w * 0.7, h * 0.65);
-    path.lineTo(w * 0.8, h);
-    path.lineTo(w * 0.5, h * 0.8);
-    path.lineTo(w * 0.2, h);
-    path.lineTo(w * 0.3, h * 0.65);
-    path.lineTo(0, h * 0.4);
-    path.lineTo(w * 0.4, h * 0.35);
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2;
+    const spikes = 18;
+
+    for (int i = 0; i < spikes * 2; i++) {
+      final angle = (pi / spikes) * i;
+      final r = i.isEven ? radius : radius * 0.65;
+      final x = center.dx + r * cos(angle);
+      final y = center.dy + r * sin(angle);
+
+      if (i == 0) {
+        path.moveTo(x, y);
+      } else {
+        path.lineTo(x, y);
+      }
+    }
+
     path.close();
     return path;
   }
 
   @override
-  bool shouldReclip(covariant CustomClipper<Path> oldClipper) => false;
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
