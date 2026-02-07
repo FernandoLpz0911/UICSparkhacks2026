@@ -1,11 +1,9 @@
-import 'package:app/widgets/navigate.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/home.dart';
 
 class Lobby extends StatefulWidget {
   final String title;
   /// create a homepage instance that refreshes
-  const Lobby({Key? key, required this.title}) : super(key: key);
+  const Lobby({super.key, required this.title});
 
   /// create the private home type and return a private home ui page
   @override
