@@ -1,11 +1,12 @@
 
 
 import 'package:app/widgets/navigate.dart';
+import 'package:app/screens/tutorial.dart';
+import 'package:app/screens/writing.dart';
 import 'package:flutter/material.dart';
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:app/screens/writing.dart';
 
 
 void main() async {
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -125,6 +126,10 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             NavigateButton(label: "Writing Page", destination: WriteStory(genre: "horror",))
+            NavigateButton(
+              label: "How To Play",
+              destination: TutorialPage(title: "How To Play"),
+            ),
           ],
         ),
       ),
