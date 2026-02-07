@@ -1,6 +1,4 @@
-import 'package:app/widgets/navigate.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/home.dart';
 
 class Lobby extends StatefulWidget {
   final String title;
@@ -20,7 +18,7 @@ class _Lobby extends State<Lobby> {
  @override
 Widget build(BuildContext context) {
   return Container(
-    width: 200,
+    width: 400,
     height: 200,
     decoration: BoxDecoration(
       color: Colors.orange,
