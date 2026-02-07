@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
 import 'package:app/main.dart';
+import 'package:app/services/firebase_firestore.dart';
 
 class Lobby extends StatefulWidget {
   final int lobbyCode;
