@@ -3,36 +3,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  // Starts the first step of the game by creating user instances
-  //Called when user first enters their name
-  Future<void> createPlayer({
-    required String playerName, //Saves the player's name
-    required int userID, //A unique number(10 digits) generated for the user easily find user
-  }) async {
-    await _db
-    .collection('Players')
-    .doc(userID.toString())
-    .set({
-      'userID': userID,
-      'name': playerName,
-    });
-  }
 
-  // Create a new lobby
-  //Called when host clicks on create lobby
+  /// Creates a new lobby. Called when host clicks on create lobby
+  /// Database Directory = ServerLobby/.doc '' fields
   Future<void> createLobby({
-    required int lobbyCode, //this keeps track of the lobby code that is generated for other users to join
-    required String genre, //this is the genre that everyone gets randomly assignes
-    required int hostUserId, //this is the host's ID
+    required int lobbyCode, 
+    required String genre, 
+    required int hostUserId,
   }) async {
     await _db.collection('ServerLobby').doc(lobbyCode.toString()).set({
       'lobbyCode': lobbyCode,
       'PlayerGenres': genre,
-      'PlayerPhase': 'waiting', //what phase the game is at either waiting, writing, voting or ended
-      'round': 1, //The round increases if the imposter has not been voted out, until there are only two people left
+      'PlayerPhase': 'waiting',
+      'round': 1,
       'hostUserId': hostUserId,
-      //'isAlive': true, //This is where players who are still alive can be stored
-      //'eliminatedPlayers': [], //This is where players who get eliminated can be stored
+      'serverTimerStart': null, // Initialized as null to start off
     });
   }
 
@@ -52,17 +37,19 @@ class FirestoreService {
       'name': name,
       'role': 'crewmate', // or imposter later
       'isAlive': true,
-      ///'joinedAt': Timestamp.now(),
+      'isReady': false,
+      'joinedAt': FieldValue.serverTimestamp(),
     });
 }
 
-  //It moves the game into the writing phase and starts the timer
-  //Called when the host presses start writing
-  Future<void> startWriting(int lobbyCode) async{
+  /// 
+  /// It moves the game into the writing phase and starts the timer
+  /// Called when the host presses start writing
+  Future<void> startWriting(int lobbyCode) async {
     await _db.collection('ServerLobby').doc(lobbyCode.toString()).update({
-      'PlayerPhase' : 'writing',
-      'startedWritingAt' : Timestamp.now(),
-      'writingDuration' : 60,
+      'PlayerPhase': 'writing',
+      'serverTimerStart': FieldValue.serverTimestamp(),
+      'writingDuration': 60,
     });
   }
 
@@ -94,19 +81,21 @@ class FirestoreService {
 
   //Records one vote per alive player
   //called when player clicks the vote button
-  Future<void> vote(
-    int lobbyCode,
-    int voterID,
-    String votedForID,
-  ) async {
-    await _db
-      .collection('ServerLobby')
-      .doc(lobbyCode.toString())
-      .collection('Votes')
-      .doc(voterID.toString())
-      .set({
-        'votedFor' : votedForID,
+  Future<void> vote({
+    required int lobbyCode,
+    required int voterID,
+    required String votedForID,
+  }) async {
+    final server = _db.collection('ServerLobby').doc(lobbyCode.toString());
+    
+    // run a transaction with the server to cross-reference. More consistency
+    return _db.runTransaction((transaction) async {
+      final voteDoc = server.collection('Votes').doc(voterID.toString());
+      transaction.set(voteDoc, {
+        'votedFor': votedForID,
+        'timestamp': FieldValue.serverTimestamp(),
       });
+    });
   }
 
   //Marks a player as eliminated
@@ -127,8 +116,12 @@ class FirestoreService {
 
   //creates a real time listener for lobby changes
   //Called as soon as user enters a lobby screen
-  Stream<DocumentSnapshot> listenToLobby(int lobbyCode){
-    return _db.collection('ServerLobby').doc(lobbyCode.toString()).snapshots();
+  Stream<QuerySnapshot> listenToPlayers(int lobbyCode) {
+    return _db
+        .collection('ServerLobby')
+        .doc(lobbyCode.toString())
+        .collection('Players')
+        .snapshots();
   }
 
 //Randomly picks one impostor
@@ -162,18 +155,35 @@ Future<void> assignRolesAndGenres({
   }
 }
 
-//Checks if the writing timer has expired
-//Allows host to suto transition phases
-//Called periodically by the host UI
+/// 
+/// Setter for the players being ready to begin playing. Sets based off the
+/// parameters using the lobbyCode, userID for specific users, and isReady as
+/// a boolean to state if that user is ready to play
+Future<void> setPlayerReady(int lobbyCode, int userID, bool isReady) async {
+    await _db
+        .collection('ServerLobby')
+        .doc(lobbyCode.toString())
+        .collection('Players')
+        .doc(userID.toString())
+        .update({'isReady': isReady});
+  }
+
+// Checks if the writing timer has expired
+// Allows host to suto transition phases
+// Called periodically by the host UI
 Future<bool> isWritingTimeOver(int lobbyCode) async {
   final lobbyDoc = await _db
       .collection('ServerLobby')
       .doc(lobbyCode.toString())
       .get();
-  final start = lobbyDoc['startedWritingAt'].toDate();
-  final duration = lobbyDoc['writingDuration'];
-  final now = DateTime.now();
-  return now.difference(start).inSeconds >= duration;
+  
+  final Timestamp? start = lobbyDoc['serverTimerStart'];
+  if (start == null) return false;
+
+  final int duration = lobbyDoc['writingDuration'];
+  final now = DateTime.now(); 
+
+  return now.difference(start.toDate()).inSeconds >= duration;
 }
 
 //Fetches all submitted texts for the round
@@ -260,10 +270,20 @@ Future<void> clearRoundData(int lobbyCode) async {
 //Resets timer
 //Called if no win condition is met
 Future<void> nextRound(int lobbyCode) async {
-  await _db.collection('ServerLobby').doc(lobbyCode.toString()).update({
+  final lobby = _db.collection('ServerLobby').doc(lobbyCode.toString());
+
+  await lobby.update({
     'round': FieldValue.increment(1),
     'PlayerPhase': 'writing',
-    'startedWritingAt': Timestamp.now(),
+    'serverTimerStart': FieldValue.serverTimestamp(),
   });
+
+  /// get the player collections
+  final players = await lobby.collection('Players').get();
+
+  /// for every player document, update that they're not ready since we're on the next round
+  for (var doc in players.docs) {
+    await doc.reference.update({'isReady': false});
+  }
 }
 }
