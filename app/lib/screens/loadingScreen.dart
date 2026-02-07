@@ -5,14 +5,23 @@ class BigOrangeCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 20,
-        height: 50, // Different from width to create the oval shape
-        decoration: BoxDecoration(
-          color: Colors.orange,
-          border: Border.all(color: Colors.black, width: 2),
-          // Setting radius to a very high number ensures the ends are perfectly round
-          borderRadius: BorderRadius.all(Radius.circular(300))
+    return Scaffold(
+      // Center widget takes up all available space and centers its child
+      body: Center( 
+        child: Container(
+          margin: EdgeInsets.all(50),
+          width: 450,  // Smaller width
+          height: 450,  // Height is half the width for a clear oval shape
+          clipBehavior: Clip.antiAlias, // Important: clips the GIF to the oval shape
+            decoration: BoxDecoration(
+              color: Colors.orange,
+              borderRadius: BorderRadius.circular(110),
+              border: Border.all(color: Colors.black, width: 2),
+            ),
+        child: Image.asset(
+          'assets/image_3.gif', // Ensures the GIF fills the oval entirely
+        ),
+      ),
         ),
       );
   }
