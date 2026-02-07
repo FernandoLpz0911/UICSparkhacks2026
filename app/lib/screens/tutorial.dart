@@ -147,13 +147,7 @@ class _TutorialPageState extends State<TutorialPage> {
               });
             },
             child: const Icon(Icons.arrow_forward), //forward button for user to move through text
-          )
-          : ElevatedButton(
-            onPressed: () {
-              //go to lobby/home
-            },
-            child: const Text('Play'),
-          ),
+          ): const SizedBox.shrink(),
           ],
         ),
       ),

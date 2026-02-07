@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:app/services/firebase_firestore.dart';
 import 'package:app/services/authentication.dart';
 import 'package:app/screens/lobby.dart';
+import 'package:app/screens/tutorial.dart';
 
 void showJoinLobbyOverlay(BuildContext context) {
   final TextEditingController codeController = TextEditingController();
@@ -182,42 +183,48 @@ class HomePage extends StatelessWidget {
 
             const SizedBox(height: 30),
 
-            // How to Play Button
             GestureDetector(
-              onTap: () => print("How to play clicked"),
-              child: Container(
-                width: 350,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.black, width: 3),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(5, 3),
-                    ),
-                  ],
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Row(
-                    children: [
-                      Text(
-                        "How to play",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(width: 8),
-                      Icon(Icons.local_fire_department, color: Colors.black, size: 24),
-                    ],
-                  ),
-                ),
-              ),
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TutorialPage(title: "Tutorial Page",), // Make sure this matches the class name in tutorial.dart
+      ),
+    );
+  },
+  child: Container(
+    width: 350,
+    height: 70,
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      border: Border.all(color: Colors.black, width: 3),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black,
+          offset: Offset(5, 3),
+        ),
+      ],
+    ),
+    child: const Padding(
+      padding: EdgeInsets.only(left: 20),
+      child: Row(
+        children: [
+          Text(
+            "How to play",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
+          ),
+          SizedBox(width: 8),
+          Icon(Icons.local_fire_department, color: Colors.black, size: 24),
+        ],
+      ),
+    ),
+  ),
+),
           ],
         ),
       ),
