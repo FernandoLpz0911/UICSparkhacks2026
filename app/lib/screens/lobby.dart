@@ -3,9 +3,9 @@ import 'package:app/widgets/navigate.dart';
 import 'package:app/screens/home.dart';
 
 class Lobby extends StatefulWidget {
-  final String title;
+  final int lobbyCode;
 
-  const Lobby({super.key, required this.title});
+  const Lobby({super.key, required this.lobbyCode});
 
   @override
   State<Lobby> createState() => _Lobby();
