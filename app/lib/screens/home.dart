@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 227, 196, 57),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(40),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(1),
@@ -83,7 +83,7 @@ class HomePage extends StatelessWidget {
                     height: 150,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 216, 136, 40),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(40),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(1),
