@@ -1,9 +1,12 @@
-import 'package:app/screens/writing.dart';
+
+
 import 'package:app/widgets/navigate.dart';
 import 'package:flutter/material.dart';
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:app/screens/writing.dart';
+
 
 void main() async {
   // Remove this after setting up authenticaton
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -116,11 +120,11 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            NavigateButton(label: "Go To Writing Scene", destination: WritingPage(title: "Writing Page")),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            NavigateButton(label: "Writing Page", destination: WriteStory(genre: "horror",))
           ],
         ),
       ),
