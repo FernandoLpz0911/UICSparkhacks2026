@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 173, 183, 58)),
       ),
       home: const TutorialPage(title: 'Flutter Demo Home Page'),
     );
@@ -63,18 +63,14 @@ class TutorialPage extends StatefulWidget {
 }
 
 class _TutorialPageState extends State<TutorialPage> {
-  int _counter = 0;
+  int _currentStep = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+
+  final List<String> tutorialTexts = [
+  'Each player is given a secret genre.\n\nYou have 60 seconds to write one sentence that fits your genre.\n\nOne player is the Impostor.',
+  'All sentences are combined into one story.\n\nAn AI arranges them to flow naturally.\n\nOne line will feel off.',
+  'Read the story.\nDiscuss with your friends.\n\nVote for the line that does not belong.\n\nFind the Impostor.',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -113,19 +109,54 @@ class _TutorialPageState extends State<TutorialPage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              tutorialTexts[_currentStep],
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(tutorialTexts.length, (index) {
+              return GestureDetector(
+                onTap: () {
+                  setState(() {
+                  _currentStep = index;
+                  });
+                },
+                child: Container( //Circular buttons for user to move through test
+                  margin: const EdgeInsets.all(6),
+                  width: 10,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: _currentStep == index ? Colors.black : Colors.grey,
+                  ),
+                ),
+              );
+            }),
+            ),
+            const SizedBox(height: 20),
+            _currentStep < tutorialTexts.length - 1
+              ? FloatingActionButton(
+              onPressed: () {
+              setState(() {
+                _currentStep++;
+              });
+            },
+            child: const Icon(Icons.arrow_forward), //forward button for user to move through text
+          )
+          : ElevatedButton(
+            onPressed: () {
+              //go to lobby/home
+            },
+            child: const Text('Play'),
+          ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
