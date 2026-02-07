@@ -1,6 +1,16 @@
+import 'package:app/screens/tutorial.dart';
 import 'package:flutter/material.dart';
+// There are the files required for the authentication to process and work in the app
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:app/widgets/navigate.dart';
 
-void main() {
+void main() async {
+  // Remove this after setting up authenticaton
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -11,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -28,12 +39,13 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -108,6 +120,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            NavigateButton(
+              label: "How To Play",
+              destination: TutorialPage(title: "How To Play"),
             ),
           ],
         ),
