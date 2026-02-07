@@ -1,14 +1,18 @@
-
-
+import 'package:app/screens/loadingScreen.dart';
+import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
+
+import 'package:app/screens/home.dart';
+import 'package:app/screens/lobby.dart';
 import 'package:app/screens/tutorial.dart';
 import 'package:app/screens/writing.dart';
-import 'package:flutter/material.dart';
+
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
+import 'package:app/widgets/navigate.dart';
+import 'package:app/screens/home.dart';
 void main() async {
   // Remove this after setting up authenticaton
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +32,14 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'Winkle',
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: const TextTheme(
+        headlineLarge: TextStyle(fontSize: 32),
+        headlineMedium: TextStyle(fontSize: 24),
+        bodyLarge: TextStyle(fontSize: 18),
+        bodyMedium: TextStyle(fontSize: 16),
+    ),
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -43,7 +55,6 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -72,6 +83,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -129,6 +141,10 @@ class _MyHomePageState extends State<MyHomePage> {
             NavigateButton(
               label: "How To Play",
               destination: TutorialPage(title: "How To Play"),
+            NavigateButton(label: "Home", destination: HomePage()),
+            NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
+            NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle()),
+            NavigateButton(label: "How To Play", destination: TutorialPage(title: "How To Play"),
             ),
           ],
         ),
