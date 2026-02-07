@@ -126,7 +126,7 @@ class _TutorialPageState extends State<TutorialPage> {
                   _currentStep = index;
                   });
                 },
-                child: Container( //Circular buttons for user to move through test
+                child: Container( //Circular buttons for user to move through text
                   margin: const EdgeInsets.all(6),
                   width: 10,
                   height: 10,
