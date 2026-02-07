@@ -1,12 +1,10 @@
-import 'package:app/widgets/navigate.dart';
 import 'package:flutter/material.dart';
-import 'package:app/screens/home.dart';
 
 class Lobby extends StatefulWidget {
   final String title;
 
   /// create a homepage instance that refreshes
-  const Lobby({Key? key, required this.title}) : super(key: key);
+  const Lobby({super.key, required this.title});
 
   /// create the private home type and return a private home ui page
   @override
@@ -17,17 +15,19 @@ class Lobby extends StatefulWidget {
 class _Lobby extends State<Lobby> {
 
   /// actual ui of the lobby page
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("LOBBY PAGE")),
-      body: Center(
-        child: NavigateButton(
-          label: "Home",
-          destination: Home(title: "Home"),
-        ),
+ @override
+Widget build(BuildContext context) {
+  return Container(
+    width: 400,
+    height: 200,
+    decoration: BoxDecoration(
+      color: Colors.orange,
+      shape: BoxShape.circle,
+      border: Border.all(
+        color: Colors.black,
+        width: 2,
       ),
-    );
-  }
-
+    ),
+  );
+}
 }

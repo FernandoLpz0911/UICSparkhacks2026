@@ -1,3 +1,4 @@
+import 'package:app/screens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
 import 'package:app/screens/home.dart';
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+
       theme: ThemeData(
+        fontFamily: 'Winkle',
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -113,7 +116,8 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             NavigateButton(label: "Home", destination: Home(title: "Home")),
-            NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby"))
+            NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
+            NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle())
           ],
         ),
       ),

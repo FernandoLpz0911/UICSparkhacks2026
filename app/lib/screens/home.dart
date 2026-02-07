@@ -5,7 +5,7 @@ import 'package:app/screens/lobby.dart';
 class Home extends StatefulWidget {
 	final String title;
 
-	const Home({Key? key, required this.title}) : super(key: key);
+	const Home({super.key, required this.title});
 
 	@override
 	_HomeState createState() => _HomeState();
