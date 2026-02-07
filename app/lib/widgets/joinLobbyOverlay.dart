@@ -5,8 +5,8 @@ import 'package:app/services/authentication.dart';
 import 'package:app/screens/lobby.dart';
 void showJoinLobbyOverlay(BuildContext context) {
   final TextEditingController codeController = TextEditingController();
-  final FirestoreService _firestoreService = FirestoreService();
-  final AuthService _authService = AuthService();
+  final FirestoreService firestoreService = FirestoreService();
+  final AuthService authService = AuthService();
 
   showDialog(
     context: context,
@@ -31,13 +31,13 @@ void showJoinLobbyOverlay(BuildContext context) {
               int? lobbyCode = int.tryParse(codeController.text);
               
               // MOCK LOGIC since auth isn't ready:
-              var user = _authService.currentUser;
+              var user = authService.currentUser;
               int userId = user?.uid.hashCode ?? Random().nextInt(999999);
               String userName = user?.displayName ?? "Player_${Random().nextInt(100)}";
 
               if (lobbyCode != null) {
                 // Now this runs even if 'user' is null
-                await _firestoreService.addPlayer(
+                await firestoreService.addPlayer(
                   lobbyCode: lobbyCode,
                   userId: userId,
                   name: userName,
