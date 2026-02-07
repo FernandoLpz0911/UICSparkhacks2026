@@ -82,6 +82,7 @@ flutter:
   assets:
     - assets/titlescreen.gif
     - assets/image_3.gif
+    - assets/image_2.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
