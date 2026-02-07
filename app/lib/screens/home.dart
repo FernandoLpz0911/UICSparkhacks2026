@@ -12,14 +12,7 @@ class HomePage extends StatelessWidget {
       //This is used to set the title
       appBar: AppBar(
         // 'leading' places a widget on the far left
-          leading: IconButton(
-          icon: const Icon(Icons.notifications),
-          color: Colors.black, // Set the icon color
-          //Functionality to be added
-          onPressed: () {
-            // Add what happens when you click it
-          },
-        ),
+
         title: Text('Rehearsing Forever',
         style: TextStyle(fontSize:20,
         fontWeight: FontWeight.bold,
@@ -33,30 +26,37 @@ class HomePage extends StatelessWidget {
       ),
 body: Center(
         child: Row( // Changed from Column to Row
-          mainAxisAlignment: MainAxisAlignment.center, // Centers them horizontally
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Centers them horizontally
           children: [
+            GestureDetector(
+              onTap: () {
+                print("Box 1 was clicked!");
+              },
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 227, 196, 57),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Center(child: Text("Make a Lobby")),
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                print("Box 2 was clicked!");
+              },
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 216, 136, 40),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Center(child: Text("Join a Lobby")),
+              ),
+            ),
             // First Container
-            Container(
-              width: 150,
-              height: 150,
-              decoration:BoxDecoration(
-              color:const Color.fromARGB(255, 227, 196, 57),
-              borderRadius: BorderRadius.circular(20)),
-              child: const Center(child: Text("Make a Lobby")),
-            ),
-
-            const SizedBox(width: 20), // Changed height to width for horizontal spacing
-
-            // Second Container
-            Container(
-              width: 150,
-              height: 150,
-              
-              decoration:BoxDecoration(
-              color: const Color.fromARGB(255, 216, 136, 40),
-              borderRadius: BorderRadius.circular(20),),
-              child: const Center(child: Text("Join a Lobby")),
-            ),
           ],
         ),
       ),
