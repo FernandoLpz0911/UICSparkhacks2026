@@ -1,13 +1,16 @@
-
-
 import 'dart:async'; 
 import 'package:flutter/material.dart'; 
-import 'package:app/screens/writing.dart';
+import 'package:app/screens/waiting.dart';
  
 class WriteStory extends StatefulWidget { 
   final String genre; 
+  final String lobbyCode;
  
-  const WriteStory({Key? key, required this.genre}) : super(key: key); 
+  const WriteStory({
+    Key? key,
+    required this.genre,
+    required this.lobbyCode,
+  }) : super(key: key);
  
   @override 
   State<WriteStory> createState() => _WriteStoryState(); 
@@ -19,6 +22,7 @@ class _WriteStoryState extends State<WriteStory> {
  
   Timer? _timer; 
   final TextEditingController _textController = TextEditingController(); 
+  bool isSubmitted = false;
  
   @override 
   void initState() { 
@@ -77,7 +81,6 @@ class _WriteStoryState extends State<WriteStory> {
  
   @override 
   Widget build(BuildContext context) { 
-    bool isSubmitted = false; //Checks the state of the submit button, if the user has submitted their story or not.
     return Scaffold( 
       backgroundColor: const Color(0xFFEFEF6A), 
       body: Padding( 
@@ -139,13 +142,26 @@ class _WriteStoryState extends State<WriteStory> {
             Center(
               child: ElevatedButton( // The button is disabled if the user has already submitted their story, preventing multiple submissions, and stops the timer when the user submits their story.
                 onPressed: isSubmitted
-                  ? null
-                  : () {
-                  setState(() {
-                    isSubmitted = true;
-                });
-            _timer?.cancel();
-          },
+          ? null
+    : () async {
+        setState(() {
+          isSubmitted = true;
+        });
+
+        _timer?.cancel();
+
+        // TODO: save text to Firestore here
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => WaitingScreen(
+            lobbyCode: widget.lobbyCode,
+            initialSeconds: remainingTime,
+      ),
+          ),
+        );
+      },
     style: ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFFD88B4A),
       padding: const EdgeInsets.symmetric(
