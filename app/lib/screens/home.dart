@@ -1,33 +1,6 @@
-import 'package:app/widgets/navigate.dart';
-import 'package:flutter/material.dart';
-import 'package:app/screens/lobby.dart';
-
-class Home extends StatefulWidget {
-	final String title;
-
-	const Home({super.key, required this.title});
-
-	@override
-	_HomeState createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
-	@override
-	Widget build(BuildContext context) {
-		return Scaffold(
-			appBar: AppBar(title: Text(widget.title)),
-			body: Center(
-				child: NavigateButton(
-					label: "Lobby",
-					destination: Lobby(title: "Lobby"),
-				),
-			),
-		);
-	}
-}
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -51,97 +24,48 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/titlescreen.gif'
-            ),
+            Image.asset('assets/titlescreen.gif'),
 
-            const SizedBox(height: 20), // Spacing
-            // --- NEW: ONE CONTAINER FOR ALL STARS ---
+            const SizedBox(height: 20),
+            
+            // Star Container
             Container(
-              width: 350, // Matches the width of the bottom button
-              height: 60, // Height of the star bar
-
-              // Inside the container, we have a Row of 3 stars
+              width: 350,
+              height: 60,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center, // Spaced evenly inside
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Icon(Icons.star, size: 35, color: Colors.amber),
-                  SizedBox(width:2),
+                  SizedBox(width: 2),
                   Icon(Icons.star, size: 35, color: Colors.amber),
-                  SizedBox(width:2),
+                  SizedBox(width: 2),
                   Icon(Icons.star, size: 35, color: Colors.amber),
                 ],
               ),
             ),
 
-            const SizedBox(height: 15), // Spacing
+            const SizedBox(height: 15),
 
-            // --- MIDDLE BUTTONS (Make/Join) ---
+            // Make/Join Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
+                _buildMenuButton(
+                  text: "Make a \nLobby",
+                  color: const Color.fromARGB(255, 227, 196, 57),
                   onTap: () => print("Make Lobby clicked"),
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 227, 196, 57),
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(1),
-                          spreadRadius: 3,
-                          blurRadius: 0,
-                          offset: const Offset(5, 3),
-                        ),
-                      ],
-                    ),
-                    child: Center(child: Text("Make a \nLobby",
-                      textAlign: TextAlign.center,
-                    style: GoogleFonts.permanentMarker(
-                    fontSize: 26,
-                    color: Colors.black,
-                    fontWeight:FontWeight.bold,
-                    ),
-                    ),
-                    ),
-                  ),
                 ),
-                GestureDetector(
+                _buildMenuButton(
+                  text: "Join a\nLobby",
+                  color: const Color.fromARGB(255, 216, 136, 40),
                   onTap: () => print("Join Lobby clicked"),
-                  child: Container(
-                    width: 150,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 216, 136, 40),
-                      borderRadius: BorderRadius.circular(40),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(1),
-                          spreadRadius: 3,
-                          blurRadius: 0,
-                          offset: const Offset(5, 3),
-                        ),
-                      ],
-                    ),
-                    child:  Center(child: Text(
-                      "Join a\nLobby",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.permanentMarker(
-                        fontSize: 26,
-                        color: Colors.black,
-                        fontWeight:FontWeight.bold,
-                      ),
-                      )),
-                  ),
                 ),
               ],
             ),
 
             const SizedBox(height: 30),
 
-            // --- BOTTOM BUTTON (How to Play) ---
+            // How to Play Button
             GestureDetector(
               onTap: () => print("How to play clicked"),
               child: Container(
@@ -150,43 +74,67 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
+                  border: Border.all(color: Colors.black, width: 3), // Cleaner way for borders
+                  boxShadow: const [
                     BoxShadow(
-                      color: Colors.black.withOpacity(1),
-                      spreadRadius: 3,
-                      blurRadius: 0,
-                      offset: const Offset(5, 3),
+                      color: Colors.black,
+                      offset: Offset(5, 3),
                     ),
                   ],
                 ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Text(
-                          "How to play",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.local_fire_department,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        "How to play",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
-                          size: 24,
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.local_fire_department, color: Colors.black, size: 24),
+                    ],
                   ),
                 ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // Helper method to keep the code DRY (Don't Repeat Yourself)
+  Widget _buildMenuButton({required String text, required Color color, required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        height: 150,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(40),
+          border: Border.all(color: Colors.black, width: 3),
+          boxShadow: const [
+            BoxShadow(
+              color: Colors.black,
+              offset: Offset(5, 3),
+            ),
+          ],
+        ),
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.permanentMarker(
+              fontSize: 26,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
     );
