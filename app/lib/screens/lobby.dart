@@ -20,11 +20,11 @@ class _Lobby extends State<Lobby> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("LOBBY PAGE")),
+      appBar: AppBar(title: const Text("Lobby")),
       body: Center(
         child: NavigateButton(
           label: "Home",
-          destination: Home(title: "Home"),
+          destination: Home(title: "Meow"),
         ),
       ),
     );
