@@ -1,5 +1,10 @@
 //This imports the package required for Firebase Authentication
 import 'package:firebase_auth/firebase_auth.dart';
+///Needed to import this package for ValueNotifier
+import 'package:flutter/material.dart';
+
+//This create an instance of the AuthService class and notifies the app when a change is made
+ValueNotifier<AuthService> authService = ValueNotifier(AuthService());
 
 //Creates custom class make the autheitcation calling in main more organized 
 class AuthService{
