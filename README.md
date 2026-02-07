@@ -1,6 +1,6 @@
 # UICSparkhacks2026
 
-## PROJECT NAME
+## Plot Twist
 
 Members: Fernando Lopez, Althea Grace Amil, Connie Kim, Joseph Aphilash, Fawaz Bello
 
