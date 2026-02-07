@@ -25,54 +25,98 @@ class HomePage extends StatelessWidget {
 
       ),
 body: Center(
-        child: Row( // Changed from Column to Row
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly, // Centers them horizontally
+        child: Column( // 1. Use Column to stack vertically
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            
+            // --- TOP SECTION: The two side-by-side buttons ---
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Button 1
+                GestureDetector(
+                  onTap: () => print("Make Lobby clicked"),
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 227, 196, 57),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(1),
+                          spreadRadius: 3,
+                          blurRadius: 0,
+                          offset: const Offset(5, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Center(child: Text("Make a Lobby")),
+                  ),
+                ),
+
+                // Button 2
+                GestureDetector(
+                  onTap: () => print("Join Lobby clicked"),
+                  child: Container(
+                    width: 150,
+                    height: 150,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 216, 136, 40),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(1),
+                          spreadRadius: 3,
+                          blurRadius: 0,
+                          offset: const Offset(5, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Center(child: Text("Join a Lobby")),
+                  ),
+                ),
+              ],
+            ),
+
+            // 2. Add Space between the top row and the bottom button
+            const SizedBox(height: 30), 
+
+            // --- BOTTOM SECTION: The long horizontal button ---
             GestureDetector(
-              onTap: () {
-                print("Box 1 was clicked!");
-              },
+              onTap: () => print("How to play clicked"),
               child: Container(
-                width: 150,
-                height: 150,
+                width: 350, // 3. Make this wide (Horizontal)
+                height: 70, // Keep height smaller than width
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 227, 196, 57),
-                  borderRadius: BorderRadius.circular(40),
+                  color: Colors.white, // Give it a distinct color
+                  borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(1.0), // Shadow color
-                      spreadRadius: 2, // How wide the shadow spreads
-                      blurRadius: 0,   // How soft the shadow looks
-                      offset: const Offset(5, 3), // Moves shadow down by 3 pixels
+                      color: Colors.black.withOpacity(1),
+                      spreadRadius: 3,
+                      blurRadius: 0,
+                      offset: const Offset(5, 3),
                     ),
                   ],
                 ),
-                child: const Center(child: Text("Make a Lobby")),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                print("Box 2 was clicked!");
-              },
-              child: Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 216, 136, 40),
-                  borderRadius: BorderRadius.circular(40),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(1), // Shadow color
-                      spreadRadius: 2, // How wide the shadow spreads
-                      blurRadius: 0,   // How soft the shadow looks
-                      offset: const Offset(5, 3), // Moves shadow down by 3 pixels
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    "How to play 🔥", // Added the emoji here
+                    style: TextStyle(
+                      fontSize: 20, 
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
-                  ],
+                  ),
                 ),
-                child: const Center(child: Text("Join a Lobby")),
+              ),
               ),
             ),
-            // First Container
           ],
         ),
       ),
