@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'loadingScreen.dart';
 
 class WaitingScreen extends StatefulWidget {
   final String lobbyCode;
@@ -26,13 +27,20 @@ class _WaitingScreenState extends State<WaitingScreen> {
     _secondsLeft = widget.initialSeconds;
     _ticker = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
-      setState(() {
-        if (_secondsLeft > 0) {
+
+      if (_secondsLeft > 0) {
+        setState(() {
           _secondsLeft--;
-        } else {
-          timer.cancel();
-        }
-      });
+        });
+      } else {
+        timer.cancel();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const BigOrangeCircle(),
+          ),
+        );
+      }
     });
   }
 
