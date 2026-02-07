@@ -10,18 +10,14 @@ class Lobby extends StatefulWidget {
   const Lobby({super.key, required this.lobbyCode});
 
   @override
-  State<Lobby> createState() => _Lobby();
+  State<Lobby> createState() => _LobbyState();
 }
 
-class _Lobby extends State<Lobby> {
-  final FirestoreService _firestoreService = FirestoreService(); /// run the database
+class _LobbyState extends State<Lobby> {
+  final FirestoreService _firestoreService = FirestoreService();
 
   @override
   Widget build(BuildContext context) {
-    
-    /// parse the lobby code from the widget title
-    int lobbyCode = (widget.lobbyCode) ?? 0;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Lobby"),
@@ -39,21 +35,22 @@ class _Lobby extends State<Lobby> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
-            /// stream builder has a listener where we can keep a stream of information, use it
+            // StreamBuilder listens to the specific lobby's players sub-collection
             StreamBuilder<QuerySnapshot>(
-              stream: _firestoreService.listenToPlayers(lobbyCode),
+              stream: _firestoreService.listenToPlayers(widget.lobbyCode),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return const Text('Something went wrong');
+                  return const Center(child: Text('Something went wrong'));
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 }
 
-                /// get the players from the lobby
-                final players = snapshot.data!.docs.map((doc) => doc['name'] as String).toList();
+                // Map database documents to a list of names
+                final players = snapshot.data!.docs
+                    .map((doc) => doc['name'] as String)
+                    .toList();
 
                 return Expanded(
                   child: Column(
@@ -78,7 +75,7 @@ class _Lobby extends State<Lobby> {
                             if (index < players.length) {
                               return playerSlot(players[index]);
                             }
-                            return playerSlot(null);
+                            return playerSlot(null); // Empty slot
                           }),
                         ),
                       ),
@@ -93,7 +90,6 @@ class _Lobby extends State<Lobby> {
     );
   }
 
-  /// set each player's slot essentially
   Widget playerSlot(String? name) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -115,7 +111,7 @@ class _Lobby extends State<Lobby> {
           ),
           const SizedBox(width: 12),
           Text(
-            name ?? '',
+            name ?? 'Waiting...',
             style: const TextStyle(fontSize: 16),
           ),
         ],
