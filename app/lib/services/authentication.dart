@@ -72,6 +72,21 @@ class AuthService{
         }
     }
 
-    
+    //This updates the password of the user after they enter their current password and email
+    //Also reathenticate the user to make sure they knew their old credentials before changing.
+    Future<void> resetPasswordFromCurrentPassword(String currentPassword, String newPassword) async {
+        try {
+            User? user = firebaseAuth.currentUser;
+            if (user != null && user.email != null) {
+                AuthCredential credential = EmailAuthProvider.credential(email: user.email!, password: currentPassword);
+                await user.reauthenticateWithCredential(credential);
+                await user.updatePassword(newPassword);
+            }
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while resetting the password.';
+        }
+    }
+
+
 
 }
