@@ -35,4 +35,16 @@ class AuthService{
         await firebaseAuth.signOut();
     }
 
+    //If the user forgets or wants to change their password this prompts the user
+    //to reset their password and throws an error if something goes wrong.
+    Future<void> resetPassword(String email) async {
+        try {
+            await firebaseAuth.sendPasswordResetEmail(email: email);
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred during password reset.';
+        }
+    }
+
+    
+
 }
