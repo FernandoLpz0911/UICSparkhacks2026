@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:app/widgets/navigate.dart';
+import 'package:app/screens/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -109,6 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            NavigateButton(label: "Home", destination: Home(title: "Home")),
+            NavigateButton(label: "Home", destination: Lobby(title: "Lobby"))
           ],
         ),
       ),
