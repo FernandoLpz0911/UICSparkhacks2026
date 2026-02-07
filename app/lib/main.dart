@@ -7,19 +7,27 @@ import 'package:flutter/material.dart';
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:app/screens/voting.dart';
 
-
-void main() async {
-  // Remove this after setting up authenticaton
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,  
+      //Calls VotePage and prints the contents of VotePage
+      home: VotePage(),
+    );
+  }
+}
+class MyvotePage extends StatelessWidget {
+  const MyvotePage({super.key});
 
   // This widget is the root of your application.
   @override
