@@ -4,15 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  /// creates a player in the database
-  /// database directory is Players/userID.doc userID and name fields
-  Future<void> createPlayer({required String playerName, required int userID}) async {
-    await _db.collection('Players').doc(userID.toString()).set({
-      'userID': userID,
-      'name': playerName,
-    });
-  }
-
   /// Creates a new lobby. Called when host clicks on create lobby
   /// Database Directory = ServerLobby/.doc '' fields
   Future<void> createLobby({
