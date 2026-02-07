@@ -35,6 +35,40 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  final FirestoreService _firestoreService = FirestoreService();
+
+  Future<void> _handleMakeLobby(BuildContext context) async {
+    
+    /// generate random code using math Random function
+    int randomCode = Random().nextInt(900000) + 100000;
+    int mockHostId = 12345;
+    String defaultGenre = "Horror";
+
+    try {
+
+      /// create the lobby
+      await _firestoreService.createLobby(
+        lobbyCode: randomCode,
+        genre: defaultGenre,
+        hostUserId: mockHostId,
+      );
+
+      // if we were able to make the lobby then we can go to the lobby screne
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Lobby(lobbyCode: randomCode),
+          ),
+        );
+      }
+
+      /// error handling
+    } catch (e) {
+      print("Error creating lobby: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
