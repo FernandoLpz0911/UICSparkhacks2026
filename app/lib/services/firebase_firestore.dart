@@ -25,7 +25,7 @@ class FirestoreService {
     required String genre, //this is the genre that everyone gets randomly assignes
     required int hostUserId, //this is the host's ID
   }) async {
-    await _db.collection('Server lobby').doc(lobbyCode.toString()).set({
+    await _db.collection('ServerLobby').doc(lobbyCode.toString()).set({
       'lobbyCode': lobbyCode,
       'genre': genre,
       'phase': 'waiting', //what phase the game is at either waiting, writing, voting or ended
