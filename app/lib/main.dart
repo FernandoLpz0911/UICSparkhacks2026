@@ -5,6 +5,67 @@ import 'firebase_options.dart';
 import 'dart:math';
 import 'services/firebase_firestore.dart';
 import 'screens/lobby.dart';
+import 'package:app/widgets/joinLobbyOverlay.dart';
+
+import 'package:flutter/material.dart';
+import 'package:app/services/firebase_firestore.dart';
+import 'package:app/services/authentication.dart';
+import 'package:app/screens/lobby.dart';
+
+void showJoinLobbyOverlay(BuildContext context) {
+  final TextEditingController codeController = TextEditingController();
+  final FirestoreService _firestoreService = FirestoreService();
+  final AuthService _authService = AuthService();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Join a Lobby"),
+        content: TextField(
+          controller: codeController,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+            hintText: "Enter 6-digit code",
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              int? lobbyCode = int.tryParse(codeController.text);
+              var user = _authService.currentUser;
+
+              if (lobbyCode != null && user != null) {
+                // Add player to Firestore ServerLobby collection
+                await _firestoreService.addPlayer(
+                  lobbyCode: lobbyCode,
+                  userId: user.uid.hashCode, // Using hash as int ID based on service signature
+                  name: user.displayName ?? "Anonymous",
+                );
+
+                if (context.mounted) {
+                  Navigator.pop(context); // Close overlay
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Lobby(lobbyCode: lobbyCode)
+                    )
+                  );
+                }
+              }
+            },
+            child: const Text("Join"),
+          ),
+        ],
+      );
+    },
+  );
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -114,7 +175,7 @@ class HomePage extends StatelessWidget {
                 _buildMenuButton(
                   text: "Join a\nLobby",
                   color: const Color.fromARGB(255, 216, 136, 40),
-                  onTap: () => print("Join Lobby clicked"),
+                  onTap: () => showJoinLobbyOverlay(context),
                 ),
               ],
             ),
