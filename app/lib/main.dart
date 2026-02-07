@@ -11,7 +11,8 @@ import 'package:app/screens/writing.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
-
+import 'package:app/widgets/navigate.dart';
+import 'package:app/screens/home.dart';
 void main() async {
   // Remove this after setting up authenticaton
   WidgetsFlutterBinding.ensureInitialized();
