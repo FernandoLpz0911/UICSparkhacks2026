@@ -1,10 +1,23 @@
 import 'package:app/screens/loadingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
+
 import 'package:app/screens/home.dart';
 import 'package:app/screens/lobby.dart';
+import 'package:app/screens/tutorial.dart';
+import 'package:app/screens/writing.dart';
 
-void main() {
+// There are the files required for the authentication to process and work in the app
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+
+void main() async {
+  // Remove this after setting up authenticaton
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -27,10 +40,28 @@ class MyApp extends StatelessWidget {
         bodyMedium: TextStyle(fontSize: 16),
     ),
   ),
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
+      ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -110,6 +141,9 @@ class _MyHomePageState extends State<MyHomePage> {
             NavigateButton(label: "Home", destination: Home(title: "Home")),
             NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
             NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle())
+            NavigateButton(label: "Writing Page", destination: WriteStory(genre: "horror",)),
+            NavigateButton(label: "How To Play", destination: TutorialPage(title: "How To Play"),
+            ),
           ],
         ),
       ),

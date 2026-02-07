@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "468797129064",
+    "project_id": "uicsparkhacks2026",
+    "storage_bucket": "uicsparkhacks2026.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468797129064:android:40b1a7a9dbe1aa458fd6dd",
+        "android_client_info": {
+          "package_name": "com.example.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "468797129064-mjd62vkmdge7s27nhc14krl90jehkrot.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWszFVBvpB7BqcIf-uqz29h7XZ6Ezq1CI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "468797129064-mjd62vkmdge7s27nhc14krl90jehkrot.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "468797129064-9rqcn90lekmiqu1oirc9id351816lqqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
