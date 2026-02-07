@@ -1,6 +1,9 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 import '../env/env.dart';
 
+/// 
+/// class for gemini where we have the model and then can send prompts and get a response.
+/// Literally just using the regular model
 class Gemini {
   final _model = GenerativeModel(model: "gemini-2.5-flash-lite", apiKey: Env.apiKey);
 
