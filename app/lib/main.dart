@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
