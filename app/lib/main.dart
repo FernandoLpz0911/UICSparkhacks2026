@@ -15,7 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+
       theme: ThemeData(
+        fontFamily: 'Winkle',
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
