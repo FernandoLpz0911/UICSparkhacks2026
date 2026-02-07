@@ -1,7 +1,9 @@
+import 'package:app/screens/tutorial.dart';
 import 'package:flutter/material.dart';
 // There are the files required for the authentication to process and work in the app
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:app/widgets/navigate.dart';
 
 void main() async {
   // Remove this after setting up authenticaton
@@ -117,6 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            NavigateButton(
+              label: "How To Play",
+              destination: TutorialPage(title: "How To Play"),
             ),
           ],
         ),
