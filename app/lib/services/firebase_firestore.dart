@@ -176,18 +176,23 @@ Future<void> setPlayerReady(int lobbyCode, int userID, bool isReady) async {
         .update({'isReady': isReady});
   }
 
-//Checks if the writing timer has expired
-//Allows host to suto transition phases
-//Called periodically by the host UI
+// Checks if the writing timer has expired
+// Allows host to suto transition phases
+// Called periodically by the host UI
 Future<bool> isWritingTimeOver(int lobbyCode) async {
   final lobbyDoc = await _db
       .collection('ServerLobby')
       .doc(lobbyCode.toString())
       .get();
-  final start = lobbyDoc['startedWritingAt'].toDate();
-  final duration = lobbyDoc['writingDuration'];
-  final now = DateTime.now();
-  return now.difference(start).inSeconds >= duration;
+  
+  final Timestamp? start = lobbyDoc['serverTimerStart'];
+  if (start == null) return false;
+
+  final int duration = lobbyDoc['writingDuration'];
+  final now = DateTime.now(); 
+  final startTime = start.toDate();
+
+  return now.difference(startTime).inSeconds >= duration;
 }
 
 //Fetches all submitted texts for the round
