@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
-import 'package:app/screens/home.dart';
+import 'package:app/main.dart';
 import 'package:app/services/firebase_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Lobby extends StatefulWidget {
-  final String title; /// lobby information
+  final int lobbyCode;
 
-  const Lobby({super.key, required this.title});
+  const Lobby({super.key, required this.lobbyCode});
 
   @override
   State<Lobby> createState() => _Lobby();
@@ -20,7 +20,7 @@ class _Lobby extends State<Lobby> {
   Widget build(BuildContext context) {
     
     /// parse the lobby code from the widget title
-    int lobbyCode = int.tryParse(widget.title) ?? 0;
+    int lobbyCode = (widget.lobbyCode) ?? 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -30,7 +30,7 @@ class _Lobby extends State<Lobby> {
             padding: const EdgeInsets.only(right: 12),
             child: NavigateButton(
               label: "Home",
-              destination: const HomePage(),
+              destination: HomePage(),
             ),
           ),
         ],
@@ -62,7 +62,7 @@ class _Lobby extends State<Lobby> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Lobby ${widget.title}',
+                            'Lobby ${widget.lobbyCode}',
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
