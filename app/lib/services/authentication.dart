@@ -31,7 +31,7 @@ class AuthService{
     }
 
     //This signs the user out of the app after they sign out and cthrows an error if something is wrong
-    Future<void>    signOut() async {
+    Future<void> signOut() async {
         await firebaseAuth.signOut();
     }
 
@@ -42,6 +42,33 @@ class AuthService{
             await firebaseAuth.sendPasswordResetEmail(email: email);
         } on FirebaseAuthException catch (e) {
             throw e.message ?? 'An error occurred during password reset.';
+        }
+    }
+
+    //This calls the currentUser instance and updates the username with the new user name provided and reloads the sceen.
+    //Throws an error if something goes wrong during the update process.
+    Future<void> updateUsername(String newUsername) async {
+        try {
+            await currentUser?.updateDisplayName(newUsername);
+            await currentUser?.reload();
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while updating the username.';
+        }
+    }
+
+    //This calls deletes the account when the user wants to delete their account
+    //But it does not delete the account from the database
+    Future<void> deleteAccount(String email,String password) async {
+        try {
+            // Re-authenticate the user before deleting the account to make sure the they logged in recently.
+            User? user = firebaseAuth.currentUser;
+            if (user != null) {
+                AuthCredential credential = EmailAuthProvider.credential(email: email, password: password);
+                await user.reauthenticateWithCredential(credential);
+                await user.delete();
+            }
+        } on FirebaseAuthException catch (e) {
+            throw e.message ?? 'An error occurred while deleting the account.';
         }
     }
 
