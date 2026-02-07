@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
         bodyLarge: TextStyle(fontSize: 18),
         bodyMedium: TextStyle(fontSize: 16),
     ),
-  ),
         // This is the theme of your application.
         //
         // TRY THIS: Try running your application with "flutter run". You'll see
@@ -55,7 +54,6 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(250,224, 249, 166)),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -140,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             NavigateButton(label: "Home", destination: Home(title: "Home")),
             NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
-            NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle())
+            NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle()),
             NavigateButton(label: "Writing Page", destination: WriteStory(genre: "horror",)),
             NavigateButton(label: "How To Play", destination: TutorialPage(title: "How To Play"),
             ),
