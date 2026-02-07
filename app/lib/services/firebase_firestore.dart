@@ -124,8 +124,12 @@ class FirestoreService {
 
   //creates a real time listener for lobby changes
   //Called as soon as user enters a lobby screen
-  Stream<DocumentSnapshot> listenToLobby(int lobbyCode){
-    return _db.collection('ServerLobby').doc(lobbyCode.toString()).snapshots();
+  Stream<QuerySnapshot> listenToPlayers(int lobbyCode) {
+    return _db
+        .collection('ServerLobby')
+        .doc(lobbyCode.toString())
+        .collection('Players')
+        .snapshots();
   }
 
 //Randomly picks one impostor
