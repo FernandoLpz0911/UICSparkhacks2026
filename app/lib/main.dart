@@ -3,20 +3,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'dart:math';
-import 'services/firebase_firestore.dart';
-import 'screens/lobby.dart';
-import 'package:app/widgets/joinLobbyOverlay.dart';
-
-import 'package:flutter/material.dart';
 import 'package:app/services/firebase_firestore.dart';
 import 'package:app/services/authentication.dart';
 import 'package:app/screens/lobby.dart';
 import 'package:app/screens/tutorial.dart';
 
+/// Overlay to handle joining a lobby with random credentials
 void showJoinLobbyOverlay(BuildContext context) {
   final TextEditingController codeController = TextEditingController();
-  final FirestoreService _firestoreService = FirestoreService();
-  final AuthService _authService = AuthService();
+  final FirestoreService firestoreService = FirestoreService();
 
   showDialog(
     context: context,
@@ -39,14 +34,23 @@ void showJoinLobbyOverlay(BuildContext context) {
           ElevatedButton(
             onPressed: () async {
               int? lobbyCode = int.tryParse(codeController.text);
-              var user = _authService.currentUser;
 
-              if (lobbyCode != null && user != null) {
-                // Add player to Firestore ServerLobby collection
-                await _firestoreService.addPlayer(
+              if (lobbyCode != null) {
+                // List of random usernames
+                final List<String> randomNames = [
+                  "Sparky", "Hacko", "Pixel", "Nova", 
+                  "Cipher", "Vector", "Logic", "Blaze"
+                ];
+                
+                // Randomly select a name and generate a unique ID
+                final String name = randomNames[Random().nextInt(randomNames.length)];
+                final int userId = Random().nextInt(1000000);
+
+                // Add player to Firestore with random credentials
+                await firestoreService.addPlayer(
                   lobbyCode: lobbyCode,
-                  userId: user.uid.hashCode, // Using hash as int ID based on service signature
-                  name: user.displayName ?? "Anonymous",
+                  userId: userId,
+                  name: name,
                 );
 
                 if (context.mounted) {
@@ -95,27 +99,22 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-   HomePage({super.key});
+  HomePage({super.key});
 
   final FirestoreService _firestoreService = FirestoreService();
 
   Future<void> _handleMakeLobby(BuildContext context) async {
-    
-    /// generate random code using math Random function
     int randomCode = Random().nextInt(900000) + 100000;
     int mockHostId = 12345;
     String defaultGenre = "Horror";
 
     try {
-
-      /// create the lobby
       await _firestoreService.createLobby(
         lobbyCode: randomCode,
         genre: defaultGenre,
         hostUserId: mockHostId,
       );
 
-      // if we were able to make the lobby then we can go to the lobby screne
       if (context.mounted) {
         Navigator.push(
           context,
@@ -124,10 +123,8 @@ class HomePage extends StatelessWidget {
           ),
         );
       }
-
-      /// error handling
     } catch (e) {
-      print("Error creating lobby: $e");
+      debugPrint("Error creating lobby: $e");
     }
   }
 
@@ -144,14 +141,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/titlescreen.gif'), // Ensure this path is in pubspec.yaml
+            Image.asset('assets/titlescreen.gif'),
             const SizedBox(height: 20),
             
             // Star Container
-            SizedBox(
+            const SizedBox(
               width: 350,
               height: 60,
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.star, size: 35, color: Colors.amber),
@@ -172,7 +169,6 @@ class HomePage extends StatelessWidget {
                   color: const Color.fromARGB(255, 227, 196, 57),
                   onTap: () => _handleMakeLobby(context),
                 ),
-                
                 _buildMenuButton(
                   text: "Join a\nLobby",
                   color: const Color.fromARGB(255, 216, 136, 40),
@@ -184,47 +180,38 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 30),
 
             GestureDetector(
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const TutorialPage(title: "Tutorial Page",), // Make sure this matches the class name in tutorial.dart
-      ),
-    );
-  },
-  child: Container(
-    width: 350,
-    height: 70,
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: Colors.black, width: 3),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black,
-          offset: Offset(5, 3),
-        ),
-      ],
-    ),
-    child: const Padding(
-      padding: EdgeInsets.only(left: 20),
-      child: Row(
-        children: [
-          Text(
-            "How to play",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TutorialPage(title: "Tutorial Page"),
+                  ),
+                );
+              },
+              child: Container(
+                width: 350,
+                height: 70,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.black, width: 3),
+                  boxShadow: const [BoxShadow(color: Colors.black, offset: Offset(5, 3))],
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        "How to play",
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      SizedBox(width: 8),
+                      Icon(Icons.local_fire_department, color: Colors.black, size: 24),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-          SizedBox(width: 8),
-          Icon(Icons.local_fire_department, color: Colors.black, size: 24),
-        ],
-      ),
-    ),
-  ),
-),
           ],
         ),
       ),
@@ -241,22 +228,13 @@ class HomePage extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(40),
           border: Border.all(color: Colors.black, width: 3),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black,
-              offset: Offset(5, 3),
-            ),
-          ],
+          boxShadow: const [BoxShadow(color: Colors.black, offset: Offset(5, 3))],
         ),
         child: Center(
           child: Text(
             text,
             textAlign: TextAlign.center,
-            style: GoogleFonts.permanentMarker(
-              fontSize: 26,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+            style: GoogleFonts.permanentMarker(fontSize: 26, color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
       ),
