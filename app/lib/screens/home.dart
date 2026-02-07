@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -13,17 +14,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      backgroundColor: const Color.fromARGB(255, 253, 247, 247),
       appBar: AppBar(
-        title: const Text(
-          'Rehearsing Forever',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 0, 0, 0),
-          ),
-        ),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 253, 247, 247),
         elevation: 0.0,
         centerTitle: true,
       ),
@@ -31,6 +24,16 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
+            Text(
+              "PLOT\nTWIST",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.permanentMarker(
+                fontSize: 90,
+                height: 1,
+                color: Colors.black
+              ),
+            ),
             
             // --- NEW: ONE CONTAINER FOR ALL STARS ---
             Container(
