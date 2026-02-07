@@ -37,7 +37,15 @@ body: Center(
                 height: 150,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 227, 196, 57),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(40),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(1.0), // Shadow color
+                      spreadRadius: 2, // How wide the shadow spreads
+                      blurRadius: 0,   // How soft the shadow looks
+                      offset: const Offset(5, 3), // Moves shadow down by 3 pixels
+                    ),
+                  ],
                 ),
                 child: const Center(child: Text("Make a Lobby")),
               ),
@@ -51,7 +59,15 @@ body: Center(
                 height: 150,
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(255, 216, 136, 40),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(40),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(1), // Shadow color
+                      spreadRadius: 2, // How wide the shadow spreads
+                      blurRadius: 0,   // How soft the shadow looks
+                      offset: const Offset(5, 3), // Moves shadow down by 3 pixels
+                    ),
+                  ],
                 ),
                 child: const Center(child: Text("Join a Lobby")),
               ),
