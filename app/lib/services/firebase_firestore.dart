@@ -37,7 +37,8 @@ class FirestoreService {
       'name': name,
       'role': 'crewmate', // or imposter later
       'isAlive': true,
-      ///'joinedAt': Timestamp.now(),
+      'isReady': false,
+      'joinedAt': FieldValue.serverTimestamp(),
     });
 }
 
