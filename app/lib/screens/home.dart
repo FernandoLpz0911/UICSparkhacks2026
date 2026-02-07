@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -24,17 +23,11 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            Text(
-              "PLOT\nTWIST",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.permanentMarker(
-                fontSize: 90,
-                height: 1,
-                color: Colors.black
-              ),
+            Image.asset(
+              'assets/titlescreen.gif'
             ),
-            
+
+            const SizedBox(height: 20), // Spacing
             // --- NEW: ONE CONTAINER FOR ALL STARS ---
             Container(
               width: 350, // Matches the width of the bottom button
@@ -76,7 +69,15 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(child: Text("Make a Lobby")),
+                    child: Center(child: Text("Make a \nLobby",
+                      textAlign: TextAlign.center,
+                    style: GoogleFonts.permanentMarker(
+                    fontSize: 26,
+                    color: Colors.black,
+                    fontWeight:FontWeight.bold,
+                    ),
+                    ),
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -96,7 +97,15 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Center(child: Text("Join a Lobby")),
+                    child:  Center(child: Text(
+                      "Join a\nLobby",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.permanentMarker(
+                        fontSize: 26,
+                        color: Colors.black,
+                        fontWeight:FontWeight.bold,
+                      ),
+                      )),
                   ),
                 ),
               ],
