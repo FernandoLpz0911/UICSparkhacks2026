@@ -137,7 +137,7 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            NavigateButton(label: "Home", destination: Home(title: "Home")),
+            NavigateButton(label: "Home", destination: HomePage()),
             NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
             NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle()),
             NavigateButton(label: "Writing Page", destination: WriteStory(genre: "horror",)),
