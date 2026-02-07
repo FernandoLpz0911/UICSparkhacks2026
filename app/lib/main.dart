@@ -102,16 +102,15 @@ class HomePage extends StatelessWidget {
             ),
 
             const SizedBox(height: 15),
-
-            // Make/Join Buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildMenuButton(
                   text: "Make a \nLobby",
                   color: const Color.fromARGB(255, 227, 196, 57),
-                  onTap: () => print("Make Lobby clicked"),
+                  onTap: () => _handleMakeLobby(context),
                 ),
+                
                 _buildMenuButton(
                   text: "Join a\nLobby",
                   color: const Color.fromARGB(255, 216, 136, 40),
