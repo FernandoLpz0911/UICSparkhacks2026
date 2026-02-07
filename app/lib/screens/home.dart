@@ -8,7 +8,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     //This sets the basic design layou
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 230, 249, 168),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       //This is used to set the title
       appBar: AppBar(
         // 'leading' places a widget on the far left
@@ -26,12 +26,40 @@ class HomePage extends StatelessWidget {
         color: const Color.fromARGB(255, 0, 0, 0),
         ),
         ),
-        backgroundColor: const Color.fromARGB(255, 230, 249, 168),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         elevation: 0.0, //Sets the shadow of the appbar
         centerTitle:true,
 
       ),
+body: Center(
+        child: Row( // Changed from Column to Row
+          mainAxisAlignment: MainAxisAlignment.center, // Centers them horizontally
+          children: [
+            // First Container
+            Container(
+              width: 150,
+              height: 150,
+              decoration:BoxDecoration(
+              color:const Color.fromARGB(255, 227, 196, 57),
+              borderRadius: BorderRadius.circular(20)),
+              child: const Center(child: Text("Make a Lobby")),
+            ),
 
+            const SizedBox(width: 20), // Changed height to width for horizontal spacing
+
+            // Second Container
+            Container(
+              width: 150,
+              height: 150,
+              
+              decoration:BoxDecoration(
+              color: const Color.fromARGB(255, 216, 136, 40),
+              borderRadius: BorderRadius.circular(20),),
+              child: const Center(child: Text("Join a Lobby")),
+            ),
+          ],
+        ),
+      ),
     );
 
   }
