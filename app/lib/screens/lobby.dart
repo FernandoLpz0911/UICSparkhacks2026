@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
-import 'package:app/screens/home.dart';
+import 'package:app/main.dart';
 
 class Lobby extends StatefulWidget {
   final int lobbyCode;
@@ -42,7 +42,7 @@ class _Lobby extends State<Lobby> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Lobby ${widget.title}',
+                  'Lobby ${widget.lobbyCode}',
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
