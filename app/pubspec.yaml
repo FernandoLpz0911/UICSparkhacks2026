@@ -42,7 +42,13 @@ dependencies:
   flutter_riverpod: ^3.0.3
   riverpod_annotation: ^3.0.3
 
+  google_generative_ai: ^0.4.0
+  envied: ^1.2.0
+
+
 dev_dependencies:
+  envied_generator: ^1.2.0
+  build_runner: ^2.4.0
   flutter_test:
     sdk: flutter
 
