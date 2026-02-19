@@ -29,7 +29,7 @@ class _Lobby extends State<Lobby> {
             padding: const EdgeInsets.only(right: 12),
             child: NavigateButton(
               label: "Home",
-              destination: Home(title: "Home"),
+              destination: HomePage(),
             ),
           ),
         ],
