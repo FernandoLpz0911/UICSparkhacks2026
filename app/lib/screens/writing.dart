@@ -34,7 +34,7 @@ class _WriteStoryState extends State<WriteStory> {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) { 
       if (remainingTime == 0) { 
         timer.cancel(); 
-        //_goToTimeUp(); 
+        _goToTimeUp(); 
       } else { 
         setState(() { 
           remainingTime--; 
@@ -57,14 +57,14 @@ class _WriteStoryState extends State<WriteStory> {
   //  ); 
  // } 
  
- // void _goToTimeUp() { 
-  //   Navigator.pushReplacement( 
-  //     context, 
-  //     MaterialPageRoute( 
-  //       builder: (_) => const TimeUpScreen(), 
-  //     ), 
-  //   ); 
-  // } 
+ void _goToTimeUp() { 
+    Navigator.pushReplacement( 
+      context, 
+      MaterialPageRoute( 
+        builder: (_) => const TimeUpScreen(), 
+      ), 
+    ); 
+  } 
  
   String get formattedTime { 
     final minutes = remainingTime ~/ 60; 
