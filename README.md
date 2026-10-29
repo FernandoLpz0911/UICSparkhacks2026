@@ -1,6 +1,6 @@
 ## Plot Twist
 
-Members: Fernando Lopez, Althea Grace Amil, Connie Kim, Joseph Aphilash, Fawaz Bello
+Members: Fernando Lopez, Althea Grace Amal, Connie Kim, Joseph Aphilash, Fawaz Bello
 
 Description:
 Mobile game application for 3+ players maxing at 8 players in which they play a game styled similarly to "Among Us" and "Liar"
