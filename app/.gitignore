@@ -165,4 +165,4 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 
 .env
-lib/env.g.dart
+lib/env/env.g.dart
