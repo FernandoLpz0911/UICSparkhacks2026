@@ -1,5 +1,7 @@
 ## Plot Twist
 
+<img src="app/assets/titlescreen.gif" alt="Plot Twist title screen" width="340">
+
 Members: Fernando Lopez, Althea Grace Amal, Connie Kim, Joseph Aphilash, Fawaz Bello
 
 Description:

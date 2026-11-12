@@ -2,7 +2,6 @@ import 'package:app/screens/loadingScreen.dart';
 import 'package:app/screens/random_genre.dart';
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
-import 'package:app/screens/home.dart';
 import 'package:app/screens/lobby.dart';
 import 'package:app/screens/branch_announcement.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -157,7 +156,6 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            NavigateButton(label: "Home", destination: Home(title: "Home")),
             NavigateButton(label: "Lobby", destination: Lobby(title: "Lobby")),
             NavigateButton(label: "LoadingScreenTest", destination: BigOrangeCircle()),
             NavigateButton(label: "RandomGenreTest", destination: Announcement()),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app/widgets/navigate.dart';
-import 'package:app/screens/home.dart';
+import 'package:app/main.dart';
 
 class Lobby extends StatefulWidget {
   final String title;
